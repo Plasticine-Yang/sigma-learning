@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightroom 校准：色彩三角扭曲模拟器</title>
+    <style>
+        :root {
+            --bg: #1e1e1e;
+            --panel-bg: #2d2d2d;
+            --text: #e0e0e0;
+            --accent: #4a9eff;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        h2 {
+            margin-bottom: 5px;
+            color: var(--accent);
+        }
+        p {
+            margin-bottom: 20px;
+            color: #aaa;
+            max-width: 600px;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .canvas-container {
+            position: relative;
+        }
+        canvas {
+            background: #000;
+            border-radius: 8px;
+            cursor: crosshair;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .controls {
+            background: var(--panel-bg);
+            padding: 25px;
+            border-radius: 12px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .slider-val {
+            font-family: monospace;
+            color: var(--accent);
+        }
+        input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+        .red-slider { accent-color: #ff5555; }
+        .green-slider { accent-color: #55ff55; }
+        .blue-slider { accent-color: #5555ff; }
+        
+        .legend {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .explanation-box {
+            margin-top: 20px;
+            max-width: 800px;
+            background: #252526;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Lightroom 校准：色彩三角扭曲模拟器</h2>
+    <p>拖动滑块，观察整个“色彩三角”如何变形。注意观察中间的混合色（黄、青、品红）和肤色点是如何被“拉扯”的。</p>
+
+    <div class="container">
+        <div class="canvas-container">
+            <canvas id="gamutCanvas" width="400" height="400"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="dot" style="background:white"></div>中心点 (White)</div>
+                <div class="legend-item"><div class="dot" style="background:#ffcc99"></div>肤色点 (Skin)</div>
+                <div class="legend-item"><div class="dot" style="border:1px dashed #666"></div>原始范围</div>
+                <div class="legend-item"><div class="dot" style="border:1px solid white"></div>扭曲后范围</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <div class="slider-label">
+                    <span>🔴 红原色色相</span>
+                    <span id="valR" class="slider-val">0</span>
+                </div>
+                <input type="range" min="-100" max="100" value="0" class="red-slider" id="sliderR">
+            </div>
+
+            <div class="control-group">
+                <div class="slider-label">
+                    <span>🟢 绿原色色相</span>
+                    <span id="valG" class="slider-val">0</span>
+                </div>
+                <input type="range" min="-100" max="100" value="0" class="green-slider" id="sliderG">
+            </div>
+
+            <div class="control-group">
+                <div class="slider-label">
+                    <span>🔵 蓝原色色相</span>
+                    <span id="valB" class="slider-val">0</span>
+                </div>
+                <input type="range" min="-100" max="100" value="0" class="blue-slider" id="sliderB">
+            </div>
+            
+            <button onclick="reset()" style="padding: 10px; background: #444; border: none; color: white; border-radius: 4px; cursor: pointer;">重置 (Reset)</button>
+        </div>
+    </div>
+
+    <div class="explanation-box">
+        <h3>👀 视觉指南：</h3>
+        <ol>
+            <li><strong>观察“蓝左移”的连锁反应</strong>：把 <strong>🔵 蓝原色</strong> 往左拉 (-100)。
+                <ul>
+                    <li>看底部的蓝点往左（青色方向）移动。</li>
+                    <li><strong>关键</strong>：看连接红蓝的线（品红区）被拉长了！</li>
+                    <li><strong>关键</strong>：看连接绿蓝的线（青色区）被压缩了！</li>
+                    <li>这就是为什么只动蓝色，会导致品红和青色的表现完全改变。</li>
+                </ul>
+            </li>
+            <li><strong>观察肤色的被动位移</strong>：注意画面右上方的 <strong>🟠 肤色点</strong>。
+                <ul>
+                    <li>当你动蓝色时，肤色点几乎不动（因为它离蓝色很远）。</li>
+                    <li>当你动 <strong>🔴 红色</strong> 时，肤色点会大幅移动。</li>
+                    <li>但在“青橙色调”中，我们为了补偿蓝色左移带来的整体色偏（虽然肤色点移动小，但视觉上的相对关系变了），通常会把红色右移。</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gamutCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const radius = 150;
+
+        const inputs = {
+            r: document.getElementById('sliderR'),
+            g: document.getElementById('sliderG'),
+            b: document.getElementById('sliderB')
+        };
+
+        const displays = {
+            r: document.getElementById('valR'),
+            g: document.getElementById('valG'),
+            b: document.getElementById('valB')
+        };
+
+        // Standard Primary Angles (sRGB-ish representation on hue wheel)
+        // Red: 0 deg (Right), Green: 120 deg, Blue: 240 deg
+        // Note: Canvas Y is down. So 0 is right.
+        const BASE_ANGLES = {
+            r: 0,
+            g: 120, // Bottom-ish? No, 120 is down-left in standard math? 
+                    // Let's align with standard color wheel: Red at top (270) or Right (0)?
+                    // Let's put Red at top (270 deg / -90 deg) for intuitive "Red=Top"?
+                    // Actually, standard HSL wheel: Red=0 (Right or Top). Let's use Red=Top (-90).
+                    // Green = Top + 120 = 30 deg (Bottom Right).
+                    // Blue = Top + 240 = 150 deg (Bottom Left).
+                    // Wait, standard HSL: Red=0, Green=120, Blue=240.
+                    // Let's use: Red (-90 deg, Top), Green (30 deg, Bottom Right), Blue (150 deg, Bottom Left).
+            r: -90,
+            g: 30,
+            b: 150
+        };
+        
+        // Let's define points relative to center
+        function getPoint(angleDeg, r) {
+            const rad = angleDeg * Math.PI / 180;
+            return {
+                x: centerX + r * Math.cos(rad),
+                y: centerY + r * Math.sin(rad)
+            };
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw background circle (Gamut boundary reference)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // Calculate Shifts
+            const shiftR = parseInt(inputs.r.value) * 0.4; // Scale -100..100 to -40..40 degrees
+            const shiftG = parseInt(inputs.g.value) * 0.4;
+            const shiftB = parseInt(inputs.b.value) * 0.4;
+
+            displays.r.textContent = inputs.r.value;
+            displays.g.textContent = inputs.g.value;
+            displays.b.textContent = inputs.b.value;
+
+            // 1. Draw Ghost Triangle (Original)
+            const origR = getPoint(BASE_ANGLES.r, radius);
+            const origG = getPoint(BASE_ANGLES.g, radius);
+            const origB = getPoint(BASE_ANGLES.b, radius);
+
+            ctx.beginPath();
+            ctx.moveTo(origR.x, origR.y);
+            ctx.lineTo(origG.x, origG.y);
+            ctx.lineTo(origB.x, origB.y);
+            ctx.closePath();
+            ctx.strokeStyle = '#444';
+            ctx.setLineDash([5, 5]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // 2. Calculate New Primary Positions
+            const newR = getPoint(BASE_ANGLES.r + shiftR, radius);
+            const newG = getPoint(BASE_ANGLES.g + shiftG, radius);
+            const newB = getPoint(BASE_ANGLES.b + shiftB, radius);
+
+            // 3. Draw New Triangle
+            ctx.beginPath();
+            ctx.moveTo(newR.x, newR.y);
+            ctx.lineTo(newG.x, newG.y);
+            ctx.lineTo(newB.x, newB.y);
+            ctx.closePath();
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // 4. Draw Primary Points
+            drawPoint(newR, 'red', 'R');
+            drawPoint(newG, '#00ff00', 'G');
+            drawPoint(newB, '#0088ff', 'B');
+
+            // 5. Draw Secondary Points (Midpoints)
+            // Yellow = Mid(R, G)
+            const pY = getMidpoint(newR, newG);
+            drawPoint(pY, 'yellow', 'Y');
+
+            // Cyan = Mid(G, B)
+            const pC = getMidpoint(newG, newB);
+            drawPoint(pC, 'cyan', 'C');
+
+            // Magenta = Mid(R, B)
+            const pM = getMidpoint(newR, newB);
+            drawPoint(pM, 'magenta', 'M');
+
+            // 6. Draw Skin Tone Point
+            // Skin is mostly Red, some Green, little Blue.
+            // Let's define Skin relative to the BASIS VECTORS, not screen coordinates.
+            // Skin = 0.7 * R + 0.3 * G + 0.1 * B (normalized roughly)
+            // Vector addition: Center + 0.7*VecR + 0.3*VecG + 0.1*VecB
+            const skinPos = getMixedPos(0.6, 0.35, 0.1, newR, newG, newB);
+            drawPoint(skinPos, '#ffcc99', 'Skin', 6);
+            
+            // Draw Center
+            drawPoint({x:centerX, y:centerY}, 'white', '', 3);
+        }
+
+        function getMidpoint(p1, p2) {
+            return {
+                x: (p1.x + p2.x) / 2,
+                y: (p1.y + p2.y) / 2
+            };
+        }
+
+        function getMixedPos(wR, wG, wB, pR, pG, pB) {
+            // Vector from center
+            const vR = { x: pR.x - centerX, y: pR.y - centerY };
+            const vG = { x: pG.x - centerX, y: pG.y - centerY };
+            const vB = { x: pB.x - centerX, y: pB.y - centerY };
+
+            return {
+                x: centerX + (vR.x * wR + vG.x * wG + vB.x * wB),
+                y: centerY + (vR.y * wR + vG.y * wG + vB.y * wB)
+            };
+        }
+
+        function drawPoint(p, color, label, size=5) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+            if (label) {
+                ctx.fillStyle = '#ccc';
+                ctx.font = '12px Arial';
+                ctx.fillText(label, p.x + 8, p.y + 4);
+            }
+        }
+
+        function reset() {
+            inputs.r.value = 0;
+            inputs.g.value = 0;
+            inputs.b.value = 0;
+            draw();
+        }
+
+        // Init
+        Object.values(inputs).forEach(input => input.addEventListener('input', draw));
+        draw();
+    </script>
+</body>
+</html>

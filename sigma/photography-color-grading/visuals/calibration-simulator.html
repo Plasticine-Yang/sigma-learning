@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightroom 校准面板：色彩对抗模拟器</title>
+    <style>
+        :root {
+            --bg: #1e1e1e;
+            --panel-bg: #2d2d2d;
+            --text: #e0e0e0;
+            --accent: #4a9eff;
+            --warning: #ffb74d;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+        h2 {
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+        .container {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1000px;
+        }
+        .preview-area {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .swatch-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .swatch-card {
+            background: var(--panel-bg);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            width: 120px;
+        }
+        .color-box {
+            width: 100%;
+            height: 80px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            transition: background-color 0.1s;
+        }
+        .swatch-label {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+        .controls {
+            background: var(--panel-bg);
+            padding: 25px;
+            border-radius: 12px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .slider-val {
+            font-family: monospace;
+            color: var(--accent);
+        }
+        input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+        .red-slider { accent-color: #ff5555; }
+        .green-slider { accent-color: #55ff55; }
+        .blue-slider { accent-color: #5555ff; }
+
+        .explanation {
+            margin-top: 30px;
+            max-width: 800px;
+            background: #252526;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--warning);
+            line-height: 1.6;
+        }
+        .explanation h3 { margin-top: 0; color: var(--warning); }
+        
+        /* Vector Visualization */
+        .vector-scope {
+            width: 200px;
+            height: 200px;
+            background: #000;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 auto;
+            border: 2px solid #444;
+        }
+        .vector-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50%;
+            height: 2px;
+            transform-origin: 0 50%;
+            transition: transform 0.1s;
+        }
+        .vector-r { background: red; }
+        .vector-g { background: lime; }
+        .vector-b { background: blue; }
+        .vector-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Lightroom 校准 (Calibration) 模拟器 v2.0</h2>
+    <p>真相修正版：观察“蓝左移”后的真实偏色，以及如何用“红右移”来拯救它。</p>
+
+    <div class="container">
+        <div class="controls">
+            <div class="vector-scope" id="scope">
+                <div class="vector-line vector-r" id="vecR"></div>
+                <div class="vector-line vector-g" id="vecG"></div>
+                <div class="vector-line vector-b" id="vecB"></div>
+            </div>
+
+            <div class="control-group">
+                <div class="slider-label">
+                    <span>🔴 红原色色相 (补偿用)</span>
+                    <span id="valR" class="slider-val">0</span>
+                </div>
+                <input type="range" min="-100" max="100" value="0" class="red-slider" id="sliderR">
+            </div>
+
+            <div class="control-group">
+                <div class="slider-label">
+                    <span>🟢 绿原色色相</span>
+                    <span id="valG" class="slider-val">0</span>
+                </div>
+                <input type="range" min="-100" max="100" value="0" class="green-slider" id="sliderG">
+            </div>
+
+            <div class="control-group">
+                <div class="slider-label">
+                    <span>🔵 蓝原色色相 (青橙核心)</span>
+                    <span id="valB" class="slider-val">0</span>
+                </div>
+                <input type="range" min="-100" max="100" value="0" class="blue-slider" id="sliderB">
+            </div>
+            
+            <button onclick="reset()" style="padding: 8px; background: #444; border: none; color: white; border-radius: 4px; cursor: pointer;">重置 (Reset)</button>
+        </div>
+
+        <div class="preview-area">
+            <div class="swatch-grid">
+                <!-- Swatches defined by their RGB components (0-1 range) -->
+                <div class="swatch-card">
+                    <div class="color-box" id="swatch-skin" data-r="0.85" data-g="0.65" data-b="0.55"></div>
+                    <div class="swatch-label">肤色 (Skin)<br>R+G</div>
+                </div>
+                <div class="swatch-card">
+                    <div class="color-box" id="swatch-leaf" data-r="0.2" data-g="0.6" data-b="0.2"></div>
+                    <div class="swatch-label">树叶 (Leaf)<br>Pure G</div>
+                </div>
+                <div class="swatch-card">
+                    <div class="color-box" id="swatch-sky" data-r="0.2" data-g="0.5" data-b="0.9"></div>
+                    <div class="swatch-label">天空 (Sky)<br>B+G</div>
+                </div>
+                <div class="swatch-card">
+                    <div class="color-box" id="swatch-orange" data-r="0.9" data-g="0.5" data-b="0.1"></div>
+                    <div class="swatch-label">橙色 (Orange)<br>R>>G</div>
+                </div>
+                <div class="swatch-card">
+                    <div class="color-box" id="swatch-teal" data-r="0.1" data-g="0.6" data-b="0.6"></div>
+                    <div class="swatch-label">青色 (Teal)<br>G+B</div>
+                </div>
+                <div class="swatch-card">
+                    <div class="color-box" id="swatch-purple" data-r="0.6" data-g="0.2" data-b="0.8"></div>
+                    <div class="swatch-label">紫色 (Purple)<br>R+B</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="explanation">
+        <h3>💡 修正后的观察重点：</h3>
+        <ol>
+            <li><strong>蓝原色的真相</strong>：把 <strong>🔵 蓝原色色相</strong> 往左拉到底 (-100)。
+                <ul>
+                    <li>观察“天空”确实变青了（Teal）。</li>
+                    <li><strong>但是</strong>：观察“肤色”——它是不是变得有点<strong>发绿/发黄</strong>？（正如你所发现的！）</li>
+                    <li><strong>原因</strong>：蓝原色左移 = 蓝色定义偏向青色（绿+蓝）。所以所有包含“蓝色/白色”成分的像素都会带上一点绿色倾向。</li>
+                </ul>
+            </li>
+            <li><strong>红原色的救赎</strong>：现在保持蓝原色在 -100，然后把 <strong>🔴 红原色色相</strong> 往右拉 (+50)。
+                <ul>
+                    <li>观察“肤色”——这时候它才真正变成了<strong>通透的橙红色</strong>！</li>
+                    <li><strong>结论</strong>：所谓的“青橙色调”，并不是只动蓝色就够了。你必须<strong>手动</strong>把红原色往反方向拉，才能抵消掉蓝色左移带来的绿色副作用，从而形成完美的色彩对抗。</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <script>
+        // Initial vectors (angles in degrees)
+        const BASE_ANGLES = {
+            r: 0,   // 0 deg (Red)
+            g: 120, // 120 deg (Green)
+            b: 240  // 240 deg (Blue)
+        };
+
+        const inputs = {
+            r: document.getElementById('sliderR'),
+            g: document.getElementById('sliderG'),
+            b: document.getElementById('sliderB')
+        };
+        
+        const displays = {
+            r: document.getElementById('valR'),
+            g: document.getElementById('valG'),
+            b: document.getElementById('valB')
+        };
+
+        const vectors = {
+            r: document.getElementById('vecR'),
+            g: document.getElementById('vecG'),
+            b: document.getElementById('vecB')
+        };
+
+        const swatches = document.querySelectorAll('.color-box');
+
+        function update() {
+            // Get input values (-100 to 100) -> Map to approx -30 to +30 degrees rotation
+            const shifts = {
+                r: parseInt(inputs.r.value) * 0.3,
+                g: parseInt(inputs.g.value) * 0.3,
+                b: parseInt(inputs.b.value) * 0.3
+            };
+
+            // Update text displays
+            displays.r.textContent = inputs.r.value;
+            displays.g.textContent = inputs.g.value;
+            displays.b.textContent = inputs.b.value;
+
+            // Update vector visualizer
+            vectors.r.style.transform = `rotate(${BASE_ANGLES.r + shifts.r}deg)`;
+            vectors.g.style.transform = `rotate(${BASE_ANGLES.g + shifts.g}deg)`;
+            vectors.b.style.transform = `rotate(${BASE_ANGLES.b + shifts.b}deg)`;
+
+            // Update swatches
+            swatches.forEach(swatch => {
+                const originalR = parseFloat(swatch.dataset.r);
+                const originalG = parseFloat(swatch.dataset.g);
+                const originalB = parseFloat(swatch.dataset.b);
+
+                // Calculate new color vector by summing weighted basis vectors
+                const newColor = calculateMixedColor(originalR, originalG, originalB, shifts);
+                
+                swatch.style.backgroundColor = `rgb(${newColor.r}, ${newColor.g}, ${newColor.b})`;
+            });
+        }
+
+        function calculateMixedColor(r, g, b, shifts) {
+            // Convert polar to cartesian
+            const toRad = deg => deg * Math.PI / 180;
+            
+            const angR = toRad(BASE_ANGLES.r + shifts.r);
+            const angG = toRad(BASE_ANGLES.g + shifts.g);
+            const angB = toRad(BASE_ANGLES.b + shifts.b);
+
+            // Vector sum
+            let x = r * Math.cos(angR) + g * Math.cos(angG) + b * Math.cos(angB);
+            let y = r * Math.sin(angR) + g * Math.sin(angG) + b * Math.sin(angB);
+
+            // Convert back to RGB for display
+            let angle = Math.atan2(y, x) * 180 / Math.PI;
+            if (angle < 0) angle += 360;
+            
+            let saturation = Math.sqrt(x*x + y*y); 
+            
+            let max = Math.max(r, g, b);
+            let min = Math.min(r, g, b);
+            let l = (max + min) / 2;
+
+            return hslToRgb(angle, saturation * 100, l * 100);
+        }
+
+        function hslToRgb(h, s, l) {
+            s /= 100;
+            l /= 100;
+            const k = n => (n + h / 30) % 12;
+            const a = s * Math.min(l, 1 - l);
+            const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+            return {
+                r: Math.round(255 * f(0)),
+                g: Math.round(255 * f(8)),
+                b: Math.round(255 * f(4))
+            };
+        }
+
+        function reset() {
+            inputs.r.value = 0;
+            inputs.g.value = 0;
+            inputs.b.value = 0;
+            update();
+        }
+
+        // Init
+        Object.values(inputs).forEach(input => input.addEventListener('input', update));
+        update();
+    </script>
+</body>
+</html>
