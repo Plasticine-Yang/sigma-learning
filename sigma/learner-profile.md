@@ -15,6 +15,7 @@ Updated: 2026-03-08
 | Topic | Concepts Mastered | Date | Key Strengths | Persistent Gaps |
 |-------|-------------------|------|---------------|-----------------|
 | photography-color-grading | 5/5 | 2026-03-08 | Strong logical deduction, good transfer of knowledge (color wheel -> curves -> grading) | None currently |
+| japanese-fresh-style | 4/4 | 2026-03-08 | Excellent intuition for aesthetic nuance (matte look, skin tones) | None currently |
 
 ## Metacognition
 - Self-assessment accuracy: well-calibrated (admits uncertainty when present)

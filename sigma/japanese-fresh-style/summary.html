@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日系清新调色 课程总结</title>
+    <style>
+        :root {
+            --bg: #fdfdfd;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --text-muted: #94a3b8;
+            --accent: #7dd3fc;
+            --success: #86efac;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            margin: 0 0 0.5rem 0;
+            color: #38bdf8;
+            font-weight: 300;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--success);
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        h2 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: #0284c7;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        ul {
+            padding-left: 1.5rem;
+            margin-bottom: 0;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        .recipe-card {
+            background: #f0f9ff;
+            border: 1px dashed #7dd3fc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        .recipe-title {
+            font-weight: bold;
+            color: #0284c7;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>日系清新调色：风格掌握</h1>
+            <p>Japanese Fresh Style Mastery</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">4/4</div>
+                    <div class="stat-label">核心技法</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">实战理解</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎐 风格配方 (The Recipe)</h2>
+            <div class="recipe-card">
+                <span class="recipe-title">核心参数参考：</span>
+                <ul>
+                    <li><strong>光感 (Tone):</strong> 曝光 +0.5 ~ +1.0，对比度 -20，阴影 +30，黑色 +20 (RGB 曲线左下角上提)</li>
+                    <li><strong>色彩 (Color):</strong> 色温偏冷 (4800K)，色调偏绿 (-5)。阴影加青 (Blue/Green Curve)，高光保暖。</li>
+                    <li><strong>肤色 (Skin):</strong> 橙色明度 +20，饱和度 -10，色相往红偏移 -5。</li>
+                    <li><strong>质感 (Texture):</strong> 清晰度 -15，去朦胧 -10，颗粒 +20 (大小 40，粗糙度 60)。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💡 关键洞察</h2>
+            <ul>
+                <li><strong>过曝的美学：</strong> 日系照片不怕亮，只怕黑。直方图应该整体向右堆积，但暗部必须悬空（不触底）。</li>
+                <li><strong>青色的来源：</strong> 不是简单的白平衡偏蓝，而是通过 RGB 曲线的阴影部分（蓝+绿）创造出来的“空气色”。</li>
+                <li><strong>通透的肤色：</strong> 橙色往红偏一点点 + 高明度 = 粉嫩通透。</li>
+                <li><strong>柔光滤镜：</strong> 负清晰度 + 负去朦胧 = 数码时代的柔光镜。</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
