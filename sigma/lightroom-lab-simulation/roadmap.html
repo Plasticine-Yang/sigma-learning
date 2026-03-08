@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightroom LAB 模拟路线图</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #e2e8f0;
+            --accent: #8b5cf6;
+            --success: #10b981;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(90deg, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .roadmap {
+            position: relative;
+            padding: 20px 0;
+        }
+        .roadmap::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #334155;
+            border-radius: 2px;
+        }
+        .concept {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 60px;
+        }
+        .concept::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 24px;
+            width: 20px;
+            height: 20px;
+            background: var(--bg);
+            border: 4px solid #334155;
+            border-radius: 50%;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        .concept.active::before {
+            border-color: var(--accent);
+            background: var(--bg);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+            animation: pulse 2s infinite;
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #334155;
+        }
+        .concept-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .concept-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 9999px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-in-progress { background: rgba(139, 92, 246, 0.2); color: #a78bfa; }
+        .status-not-started { background: #334155; color: #94a3b8; }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lightroom LAB 模拟路线图</h1>
+        
+        <div class="roadmap">
+            <div class="concept active">
+                <div class="card">
+                    <div class="concept-header">
+                        <h3 class="concept-title">校准面板 (Calibration)</h3>
+                        <span class="status-badge status-in-progress">进行中</span>
+                    </div>
+                    <p>理解为什么这个最底部的面板是模拟 LAB 通道混合的关键。</p>
+                </div>
+            </div>
+            <div class="concept">
+                <div class="card">
+                    <div class="concept-header">
+                        <h3 class="concept-title">模拟 A 通道</h3>
+                        <span class="status-badge status-not-started">未开始</span>
+                    </div>
+                    <p>利用红绿通道的对抗关系模拟 A 通道调整。</p>
+                </div>
+            </div>
+            <div class="concept">
+                <div class="card">
+                    <div class="concept-header">
+                        <h3 class="concept-title">模拟 B 通道</h3>
+                        <span class="status-badge status-not-started">未开始</span>
+                    </div>
+                    <p>利用蓝黄通道的对抗关系模拟 B 通道调整。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

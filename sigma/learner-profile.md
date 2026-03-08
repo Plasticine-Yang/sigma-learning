@@ -21,6 +21,8 @@ The file /Users/bytedance/code/projects/sigma-skill/sigma/learner-profile.md has
     17→| photography-color-grading | 5/5 | 2026-03-08 | Strong logical deduction, good transfer of knowledge (color wheel -> curves -> grading) | None currently |
     18→| japanese-fresh-style | 4/4 | 2026-03-08 | Excellent intuition for aesthetic nuance (matte look, skin tones) | None currently |
     19→| leica-m9-style | 4/4 | 2026-03-08 | Grasps the "additive" nature of Leica style vs "subtractive" Japanese style | None currently |
+| lab-color-matching | 5/5 | 2026-03-08 | Quickly grasped the "decoupling" concept and geometric curve operations | None currently |
+| lightroom-lab-simulation | 4/4 | 2026-03-08 | Understood Calibration tool as a LAB proxy; grasped the RGB/LAB saturation difference | None currently |
     20→
     21→## Metacognition
     22→- Self-assessment accuracy: well-calibrated (admits uncertainty when present)
