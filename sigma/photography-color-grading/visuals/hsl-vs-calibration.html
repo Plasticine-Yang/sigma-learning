@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摄影调色：HSL vs 校准</title>
+    <style>
+        body { font-family: sans-serif; background: #1e293b; color: #f8fafc; padding: 2rem; display: flex; justify-content: center; }
+        .container { max-width: 800px; width: 100%; }
+        .pixel-demo { display: flex; gap: 2rem; margin-bottom: 2rem; justify-content: center; }
+        .pixel-box { 
+            background: #0f172a; 
+            padding: 1.5rem; 
+            border-radius: 8px; 
+            border: 1px solid #334155;
+            text-align: center;
+            width: 200px;
+        }
+        .pixel {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            transition: background 0.5s;
+            position: relative;
+        }
+        .channel-bars { display: flex; gap: 4px; height: 100px; align-items: flex-end; justify-content: center; margin-top: 10px; }
+        .bar { width: 20px; transition: height 0.5s, background 0.5s; position: relative; }
+        .bar-r { background: #ef4444; }
+        .bar-g { background: #22c55e; }
+        .bar-b { background: #3b82f6; }
+        h3 { margin-top: 0; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        /* Initial State: Orange Pixel (R=255, G=165, B=0) */
+        .pixel.orange { background: rgb(255, 165, 0); box-shadow: 0 0 20px rgba(255, 165, 0, 0.4); }
+        .bar-r.orange { height: 100px; } /* 100% */
+        .bar-g.orange { height: 65px; }  /* ~65% */
+        .bar-b.orange { height: 0px; }   /* 0% */
+
+        /* HSL Adjustment on RED only */
+        /* Orange is NOT Red in HSL strict sense, but close. Let's say we have a Purple pixel instead for clarity. */
+        /* Let's use Purple (R=128, G=0, B=128) */
+        .pixel.purple { background: rgb(128, 0, 128); box-shadow: 0 0 20px rgba(128, 0, 128, 0.4); }
+        .bar-r.purple { height: 50px; }
+        .bar-g.purple { height: 0px; }
+        .bar-b.purple { height: 50px; }
+
+        .explanation { background: #334155; padding: 1.5rem; border-radius: 8px; line-height: 1.6; }
+        strong { color: #38bdf8; }
+        .highlight { color: #fbbf24; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>解密：HSL vs 校准</h2>
+        
+        <div class="explanation">
+            <p>想象一个<strong>紫色像素</strong> (R:128, G:0, B:128)。它由 50% 红 + 50% 蓝组成。</p>
+        </div>
+
+        <div class="pixel-demo">
+            <!-- Case 1: HSL Red Shift -->
+            <div class="pixel-box">
+                <h3>HSL 调整红色</h3>
+                <div class="pixel purple"></div>
+                <div class="channel-bars">
+                    <div class="bar bar-r purple"></div>
+                    <div class="bar bar-g purple"></div>
+                    <div class="bar bar-b purple"></div>
+                </div>
+                <p style="font-size: 0.8rem; margin-top: 1rem;">
+                    软件判断：<br>"这是紫色，不是纯红色"<br>
+                    <span class="highlight">结果：不理会 (或极微小影响)</span>
+                </p>
+            </div>
+
+            <!-- Case 2: Calibration Red Shift -->
+            <div class="pixel-box">
+                <h3>校准 调整红原色</h3>
+                <div class="pixel purple" style="background: rgb(128, 20, 128); box-shadow: 0 0 20px rgb(128, 20, 128);"></div> <!-- Simulation of shift -->
+                <div class="channel-bars">
+                    <div class="bar bar-r purple" style="background: #ff6b6b;"></div> <!-- Red definition changed -->
+                    <div class="bar bar-g purple"></div>
+                    <div class="bar bar-b purple"></div>
+                </div>
+                <p style="font-size: 0.8rem; margin-top: 1rem;">
+                    软件判断：<br>"只要这个像素里含有红色成分"<br>
+                    <span class="highlight">结果：紫色的成分也被改变了！</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <p><strong>HSL (Hue, Saturation, Luminance)</strong> 是在“表面”工作。它会先像漏斗一样筛选颜色：“你是红色吗？不是？那我不动你。”</p>
+            <p><strong>校准 (Calibration)</strong> 是在“基因”层面工作。它重新定义了“什么是红色”。<br>
+            当你改变红原色，<strong>任何包含红色通道信息的像素</strong>（比如橙色肤色、紫色天空、洋红晚霞）都会跟着变，因为它们体内都有“红色基因”。</p>
+        </div>
+    </div>
+</body>
+</html>

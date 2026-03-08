@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摄影调色 课程总结</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --success: #4ade80;
+            --border: #334155;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            margin: 0 0 0.5rem 0;
+            background: linear-gradient(45deg, var(--accent), #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--success);
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+        h2 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        ul {
+            padding-left: 1.5rem;
+            margin-bottom: 0;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        .highlight {
+            color: var(--success);
+            font-weight: 500;
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .concept-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .concept-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .concept-status {
+            font-size: 0.8rem;
+            color: var(--success);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>摄影调色：进阶掌握</h1>
+            <p>Session Summary</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">5/5</div>
+                    <div class="stat-label">概念掌握</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">准确率</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">误区修正</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 核心成就</h2>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <div class="concept-name">色彩互补原理</div>
+                    <div class="concept-status">Mastered</div>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-name">RGB 曲线高级应用</div>
+                    <div class="concept-status">Mastered</div>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-name">色彩校准 (Calibration)</div>
+                    <div class="concept-status">Mastered</div>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-name">色彩分级 (Color Grading)</div>
+                    <div class="concept-status">Mastered</div>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-name">局部调色 (Local Masking)</div>
+                    <div class="concept-status">Mastered</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💡 关键洞察</h2>
+            <ul>
+                <li><strong>曲线的本质：</strong> 提是本色，拉是补色。曲线不仅仅是亮度的工具，更是色彩雕刻刀。</li>
+                <li><strong>校准 vs HSL：</strong> HSL 是表面修饰（挑菜），校准是基因改造（改配方）。这解释了为什么“青橙色调”离不开校准。</li>
+                <li><strong>中间调的秘密：</strong> 中间调是肤色的守护者。用互补色（绿 vs 紫）来修正偏色，是高级调色的基本功。</li>
+                <li><strong>自然的局部光：</strong> 提亮必须配合加对比度，否则光线会显得“灰”、“死白”，没有质感。</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🚀 下一步建议</h2>
+            <ul>
+                <li>尝试去拆解你喜欢的电影截图，用吸管工具分析它的阴影、高光和中间调分别偏向什么颜色。</li>
+                <li>在实际修图时，强制自己先用“校准”定调，再用 HSL 微调，感受两者的区别。</li>
+                <li>练习“光线重塑”：找一张平光照片，仅用径向滤镜（提亮+加对比度+加暖色）人为制造出戏剧性的光效。</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

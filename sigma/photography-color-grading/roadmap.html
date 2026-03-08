@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摄影调色 学习路线图</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --danger: #f87171;
+            --border: #334155;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, var(--accent), #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .progress-bar {
+            background: var(--card-bg);
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 3rem;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--success);
+            width: 100%; /* Updated */
+            transition: width 0.5s ease;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+        .concept {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .concept:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+        .concept::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 50%;
+            transform: translateY(-50%) translateX(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            z-index: 1;
+        }
+        .concept.mastered {
+            border-color: var(--success);
+        }
+        .concept.mastered::before {
+            background: var(--success);
+            border-color: var(--success);
+        }
+        .concept.in-progress {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
+        }
+        .concept.in-progress::before {
+            background: var(--accent);
+            border-color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+        }
+        .concept-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .concept-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .concept-status {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+        .status-not-started { background: var(--border); color: var(--text-muted); }
+        .status-in-progress { background: rgba(56, 189, 248, 0.2); color: var(--accent); }
+        .status-mastered { background: rgba(74, 222, 128, 0.2); color: var(--success); }
+        
+        .concept-meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>摄影调色 进阶之路</h1>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 100%"></div>
+        </div>
+
+        <div class="timeline">
+            <!-- Concept 1 -->
+            <div class="concept mastered">
+                <div class="concept-header">
+                    <div class="concept-title">1. 色彩互补原理 (Complementary Colors)</div>
+                    <div class="concept-status status-mastered">已掌握</div>
+                </div>
+            </div>
+
+            <!-- Concept 2 -->
+            <div class="concept mastered">
+                <div class="concept-header">
+                    <div class="concept-title">2. RGB 曲线的高级应用</div>
+                    <div class="concept-status status-mastered">已掌握</div>
+                </div>
+            </div>
+
+            <!-- Concept 3 -->
+            <div class="concept mastered">
+                <div class="concept-header">
+                    <div class="concept-title">3. 色彩校准 (Camera Calibration)</div>
+                    <div class="concept-status status-mastered">已掌握</div>
+                </div>
+            </div>
+
+            <!-- Concept 4 -->
+            <div class="concept mastered">
+                <div class="concept-header">
+                    <div class="concept-title">4. 色彩分级 (Color Grading / Split Toning)</div>
+                    <div class="concept-status status-mastered">已掌握</div>
+                </div>
+            </div>
+
+             <!-- Concept 5 -->
+             <div class="concept mastered">
+                <div class="concept-header">
+                    <div class="concept-title">5. 局部调色 (Local Masking)</div>
+                    <div class="concept-status status-mastered">已掌握</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
