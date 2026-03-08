@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>徕卡 M9 风格 课程总结</title>
+    <style>
+        :root {
+            --bg: #1c1917;
+            --card-bg: #292524;
+            --text: #e7e5e4;
+            --text-muted: #a8a29e;
+            --accent: #dc2626; /* Leica Red */
+            --success: #22c55e;
+            --border: #44403c;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            margin: 0 0 0.5rem 0;
+            color: var(--text);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .leica-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            vertical-align: middle;
+            margin-left: 0.5rem;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--success);
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .section {
+            background: var(--card-bg);
+            border-radius: 2px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+        h2 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+        }
+        ul {
+            padding-left: 1.5rem;
+            margin-bottom: 0;
+        }
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+        strong {
+            color: var(--text);
+        }
+        .recipe-card {
+            background: #000;
+            border: 1px solid #333;
+            padding: 1.5rem;
+            border-radius: 2px;
+            margin-top: 1rem;
+            position: relative;
+        }
+        .recipe-card::after {
+            content: 'M9';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #333;
+            font-weight: 900;
+            font-size: 2rem;
+            opacity: 0.5;
+        }
+        .recipe-title {
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>徕卡 M9 风格 <span class="leica-badge">Mastered</span></h1>
+            <p>The CCD Look</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">4/4</div>
+                    <div class="stat-label">核心技法</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">实战理解</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔴 德味配方 (The Leica Recipe)</h2>
+            <div class="recipe-card">
+                <span class="recipe-title">核心参数参考：</span>
+                <ul>
+                    <li><strong>基调 (Tone):</strong> 对比度 +20，黑色色阶 -30（压实暗部），阴影 -10。</li>
+                    <li><strong>色彩 (Color):</strong> 饱和度 +15。校准：红原色（色相+15, 饱和+10），蓝原色（色相-20, 饱和+30）。</li>
+                    <li><strong>暗角 (Vignette):</strong> 数量 -30，中点 20（向中心逼近），羽化 80（柔和过渡）。</li>
+                    <li><strong>质感 (Texture):</strong> 纹理 +20（微反差），清晰度 +10（立体感），锐化 +40（细节）。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💡 关键洞察</h2>
+            <ul>
+                <li><strong>加法美学：</strong> 与日系相反，徕卡风格是“加对比、加饱和、加暗角”。</li>
+                <li><strong>CCD 的灵魂：</strong> 暗部要实（不发灰），色彩要厚（高饱和+特定偏移）。</li>
+                <li><strong>徕卡蓝：</strong> 蓝原色往紫色偏移 + 高饱和，这是最标志性的特征。</li>
+                <li><strong>微反差：</strong> 纹理 (Texture) 是模拟现代高解析力镜头的关键，而清晰度 (Clarity) 负责整体的立体感。</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
