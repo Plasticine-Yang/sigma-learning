@@ -1,197 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>徕卡 M9 风格 学习路线图</title>
+    <style>
+        :root {
+            --bg: #1c1917;
+            --card-bg: #292524;
+            --text: #e7e5e4;
+            --text-muted: #a8a29e;
+            --accent: #dc2626; /* Leica Red */
+            --success: #22c55e;
+            --border: #44403c;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .leica-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            vertical-align: middle;
+            margin-left: 0.5rem;
+        }
+        .progress-bar {
+            background: var(--card-bg);
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 3rem;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 100%; /* Updated */
+            transition: width 0.5s ease;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+        .concept {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 2px; /* Sharper corners for Leica feel */
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .concept:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+        .concept::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 50%;
+            transform: translateY(-50%) translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            z-index: 1;
+        }
+        .concept.mastered {
+            border-color: var(--success);
+        }
+        .concept.mastered::before {
+            background: var(--success);
+            border-color: var(--success);
+        }
+        .concept.in-progress {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.2);
+        }
+        .concept.in-progress::before {
+            background: var(--accent);
+            border-color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+        }
+        .concept-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .concept-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .concept-status {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+        .status-not-started { background: #44403c; color: var(--text-muted); }
+        .status-in-progress { background: rgba(220, 38, 38, 0.2); color: #fca5a5; }
+        .status-mastered { background: rgba(34, 197, 94, 0.2); color: var(--success); }
+        
+        .concept-meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>徕卡 M9 风格 <span class="leica-badge">CCD Look</span></h1>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 100%"></div>
+        </div>
 
-<toolcall_status>done</toolcall_status>
-<toolcall_result>
-The file /Users/bytedance/code/projects/sigma-skill/sigma/leica-m9-style/roadmap.html has been updated. Here's the result of running `cat -n` on a snippet of the edited file:
-     1→<!DOCTYPE html>
-     2→<html lang="zh">
-     3→<head>
-     4→    <meta charset="UTF-8">
-     5→    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     6→    <title>徕卡 M9 风格 学习路线图</title>
-     7→    <style>
-     8→        :root {
-     9→            --bg: #1c1917;
-    10→            --card-bg: #292524;
-    11→            --text: #e7e5e4;
-    12→            --text-muted: #a8a29e;
-    13→            --accent: #dc2626; /* Leica Red */
-    14→            --success: #22c55e;
-    15→            --border: #44403c;
-    16→        }
-    17→        body {
-    18→            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    19→            background-color: var(--bg);
-    20→            color: var(--text);
-    21→            margin: 0;
-    22→            padding: 2rem;
-    23→            line-height: 1.5;
-    24→        }
-    25→        .container {
-    26→            max-width: 800px;
-    27→            margin: 0 auto;
-    28→        }
-    29→        h1 {
-    30→            text-align: center;
-    31→            margin-bottom: 2rem;
-    32→            color: var(--text);
-    33→            font-weight: 700;
-    34→            letter-spacing: -0.02em;
-    35→        }
-    36→        .leica-badge {
-    37→            display: inline-block;
-    38→            background: var(--accent);
-    39→            color: white;
-    40→            padding: 0.2rem 0.8rem;
-    41→            border-radius: 999px;
-    42→            font-size: 0.8rem;
-    43→            font-weight: bold;
-    44→            vertical-align: middle;
-    45→            margin-left: 0.5rem;
-    46→        }
-    47→        .progress-bar {
-    48→            background: var(--card-bg);
-    49→            height: 8px;
-    50→            border-radius: 4px;
-    51→            margin-bottom: 3rem;
-    52→            overflow: hidden;
-    53→        }
-    54→        .progress-fill {
-    55→            height: 100%;
-    56→            background: var(--accent);
-    57→            width: 100%; /* Updated */
-    58→            transition: width 0.5s ease;
-    59→        }
-    60→        .timeline {
-    61→            position: relative;
-    62→            padding-left: 2rem;
-    63→        }
-    64→        .timeline::before {
-    65→            content: '';
-    66→            position: absolute;
-    67→            left: 0;
-    68→            top: 0;
-    69→            bottom: 0;
-    70→            width: 2px;
-    71→            background: var(--border);
-    72→        }
-    73→        .concept {
-    74→            background: var(--card-bg);
-    75→            border: 1px solid var(--border);
-    76→            border-radius: 2px; /* Sharper corners for Leica feel */
-    77→            padding: 1.5rem;
-    78→            margin-bottom: 1.5rem;
-    79→            position: relative;
-    80→            transition: transform 0.2s;
-    81→        }
-    82→        .concept:hover {
-    83→            transform: translateY(-2px);
-    84→            border-color: var(--accent);
-    85→        }
-    86→        .concept::before {
-    87→            content: '';
-    88→            position: absolute;
-    89→            left: -2rem;
-    90→            top: 50%;
-    91→            transform: translateY(-50%) translateX(-50%);
-    92→            width: 12px;
-    93→            height: 12px;
-    94→            background: var(--bg);
-    95→            border: 2px solid var(--border);
-    96→            z-index: 1;
-    97→        }
-    98→        .concept.mastered {
-    99→            border-color: var(--success);
-   100→        }
-   101→        .concept.mastered::before {
-   102→            background: var(--success);
-   103→            border-color: var(--success);
-   104→        }
-   105→        .concept.in-progress {
-   106→            border-color: var(--accent);
-   107→            box-shadow: 0 0 15px rgba(220, 38, 38, 0.2);
-   108→        }
-   109→        .concept.in-progress::before {
-   110→            background: var(--accent);
-   111→            border-color: var(--accent);
-   112→            animation: pulse 2s infinite;
-   113→        }
-   114→        @keyframes pulse {
-   115→            0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
-   116→            70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
-   117→            100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
-   118→        }
-   119→        .concept-header {
-   120→            display: flex;
-   121→            justify-content: space-between;
-   122→            align-items: center;
-   123→            margin-bottom: 0.5rem;
-   124→        }
-   125→        .concept-title {
-   126→            font-weight: 600;
-   127→            font-size: 1.1rem;
-   128→        }
-   129→        .concept-status {
-   130→            font-size: 0.8rem;
-   131→            padding: 0.25rem 0.75rem;
-   132→            border-radius: 2px;
-   133→            text-transform: uppercase;
-   134→            font-weight: bold;
-   135→            letter-spacing: 0.05em;
-   136→        }
-   137→        .status-not-started { background: #44403c; color: var(--text-muted); }
-   138→        .status-in-progress { background: rgba(220, 38, 38, 0.2); color: #fca5a5; }
-   139→        .status-mastered { background: rgba(34, 197, 94, 0.2); color: var(--success); }
-   140→        
-   141→        .concept-meta {
-   142→            font-size: 0.9rem;
-   143→            color: var(--text-muted);
-   144→            display: flex;
-   145→            gap: 1rem;
-   146→        }
-   147→    </style>
-   148→</head>
-   149→<body>
-   150→    <div class="container">
-   151→        <h1>徕卡 M9 风格 <span class="leica-badge">CCD Look</span></h1>
-   152→        
-   153→        <div class="progress-bar">
-   154→            <div class="progress-fill" style="width: 100%"></div>
-   155→        </div>
-   156→
-   157→        <div class="timeline">
-   158→            <!-- Concept 1 -->
-   159→            <div class="concept mastered">
-   160→                <div class="concept-header">
-   161→                    <div class="concept-title">1. CCD 的高饱和低明度 (Rich Color & Low Key)</div>
-   162→                    <div class="concept-status status-mastered">已掌握</div>
-   163→                </div>
-   164→            </div>
-   165→
-   166→            <!-- Concept 2 -->
-   167→            <div class="concept mastered">
-   168→                <div class="concept-header">
-   169→                    <div class="concept-title">2. 蓝调与红调的特殊偏移 (Blue/Red Shift)</div>
-   170→                    <div class="concept-status status-mastered">已掌握</div>
-   171→                </div>
-   172→            </div>
-   173→
-   174→            <!-- Concept 3 -->
-   175→            <div class="concept mastered">
-   176→                <div class="concept-header">
-   177→                    <div class="concept-title">3. 暗角与中心重点测光感 (Vignetting)</div>
-   178→                    <div class="concept-status status-mastered">已掌握</div>
-   179→                </div>
-   180→            </div>
-   181→
-   182→            <!-- Concept 4 -->
-   183→            <div class="concept mastered">
-   184→                <div class="concept-header">
-   185→                    <div class="concept-title">4. 锐度与微反差 (Micro-contrast)</div>
-   186→                    <div class="concept-status status-mastered">已掌握</div>
-   187→                </div>
-   188→            </div>
-   189→        </div>
-   190→    </div>
-   191→</body>
-   192→</html>
-</toolcall_result>
+        <div class="timeline">
+            <!-- Concept 1 -->
+            <div class="concept mastered">
+                <div class="concept-header">
+                    <div class="concept-title">1. CCD 的高饱和低明度 (Rich Color & Low Key)</div>
+                    <div class="concept-status status-mastered">已掌握</div>
+                </div>
+            </div>
+
+            <!-- Concept 2 -->
+            <div class="concept mastered">
+                <div class="concept-header">
+                    <div class="concept-title">2. 蓝调与红调的特殊偏移 (Blue/Red Shift)</div>
+                    <div class="concept-status status-mastered">已掌握</div>
+                </div>
+            </div>
+
+            <!-- Concept 3 -->
+            <div class="concept mastered">
+                <div class="concept-header">
+                    <div class="concept-title">3. 暗角与中心重点测光感 (Vignetting)</div>
+                    <div class="concept-status status-mastered">已掌握</div>
+                </div>
+            </div>
+
+            <!-- Concept 4 -->
+            <div class="concept mastered">
+                <div class="concept-header">
+                    <div class="concept-title">4. 锐度与微反差 (Micro-contrast)</div>
+                    <div class="concept-status status-mastered">已掌握</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
